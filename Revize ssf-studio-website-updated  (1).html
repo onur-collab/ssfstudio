@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSF STUDIO - London Strategic Consultancy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #0B0B0B;
+            color: #EDE6DC;
+            line-height: 1.7;
+            overflow-x: hidden;
+            overflow-y: hidden; /* Prevent scrolling during intro */
+        }
+
+        /* INTRO LOADING OVERLAY */
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0B0B0B;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+
+        #intro.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .key-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 30px;
+            animation: floatKey 2s ease-in-out;
+        }
+
+        @keyframes floatKey {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-8px) rotate(5deg);
+                opacity: 1;
+            }
+        }
+
+        .intro-text {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: #C2A46D;
+            text-transform: uppercase;
+            animation: fadeInText 1.5s ease-out 0.3s both;
+        }
+
+        .intro-location {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #EDE2D3;
+            text-transform: uppercase;
+            margin-top: 12px;
+            animation: fadeInText 1.5s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MAIN CONTENT */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            display: block;
+            transition: opacity 1s ease;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 72px;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 48px;
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            font-size: 32px;
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 11, 11, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 25px 50px;
+            border-bottom: 1px solid rgba(58, 58, 58, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        nav a {
+            color: #EDE6DC;
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #C2A46D;
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 120px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dark-section {
+            background-color: #0B0B0B;
+            color: #EDE6DC;
+        }
+
+        .light-section {
+            background-color: #EDE2D3;
+            color: #1A1A1A;
+        }
+
+        /* HERO SECTION */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 150px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Add background-image: url('path-to-founder-photo.jpg'); when ready */
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(11, 11, 11, 0.5);
+            z-index: 1;
+        }
+
+        #hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        #hero h1 {
+            color: #EDE2D3;
+            margin-bottom: 30px;
+        }
+
+        .hero-tagline {
+            font-size: 24px;
+            color: #C2A46D;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            max-width: 700px;
+            font-size: 18px;
+            color: #EDE6DC;
+            margin-bottom: 50px;
+            line-height: 1.8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 50px;
+            border: 1px solid #C2A46D;
+            color: #C2A46D;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #C2A46D;
+            color: #0B0B0B;
+        }
+
+        .hero-note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #EDE6DC;
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        /* ABOUT SECTION */
+        #about {
+            text-align: left;
+        }
+
+        .who-wrap {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .who-left {
+            position: relative;
+            width: 100%;
+            padding-bottom: 125%; /* 4:5 aspect ratio */
+            background-color: #D5C9B8;
+            border: 1px solid rgba(194, 164, 109, 0.3);
+            overflow: hidden;
+        }
+
+        .who-left .about-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .who-right h2 {
+            margin-bottom: 40px;
+            color: #1A1A1A;
+            text-align: left;
+        }
+
+        .who-right p {
+            margin-bottom: 25px;
+            font-size: 17px;
+            line-height: 1.9;
+            color: #1A1A1A;
+        }
+
+        .who-right p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* CORE SERVICES */
+        #services h2 {
+            text-align: center;
+            margin-bottom: 80px;
+            color: #EDE2D3;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background-color: #EDE2D3;
+            padding: 50px 40px;
+            border: 1px solid #3A3A3A;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: #C2A46D;
+        }
+
+        .service-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            color: #C2A46D;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .service-card h3 {
+            color: #1A1A1A;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .service-card p {
+            color: #1A1A1A;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* HOW IT WORKS */
+        #process {
+            background-color: #EDE2D3;
+        }
+
+        #process h2 {
+            text-align: center;
+            margin-bottom: 80px;
+            color: #1A1A1A;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            text-align: center;
+        }
+
+        .step-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            color: #C2A46D;
+            margin-bottom: 20px;
+        }
+
+        .process-step h3 {
+            color: #1A1A1A;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .process-step p {
+            color: #1A1A1A;
+            font-size: 15px;
+        }
+
+        /* PHILOSOPHY */
+        #philosophy {
+            text-align: center;
+        }
+
+        #philosophy h2 {
+            margin-bottom: 30px;
+            color: #EDE2D3;
+        }
+
+        .philosophy-intro {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            font-size: 18px;
+            color: #EDE6DC;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .philosophy-card {
+            background-color: transparent;
+            padding: 40px 30px;
+            border: 1px solid rgba(194, 164, 109, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            border-color: rgba(194, 164, 109, 0.5);
+        }
+
+        .philosophy-card h3 {
+            color: #C2A46D;
+            margin-bottom: 25px;
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .philosophy-card p {
+            color: #EDE6DC;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        /* CONTACT */
+        #contact h2 {
+            text-align: center;
+            margin-bottom: 80px;
+            color: #EDE2D3;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            color: #C2A46D;
+            margin-bottom: 40px;
+            font-size: 28px;
+        }
+
+        .info-item {
+            margin-bottom: 35px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #C2A46D;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #EDE6DC;
+        }
+
+        .info-value a {
+            color: #EDE6DC;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-value a:hover {
+            color: #C2A46D;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #C2A46D;
+            margin-bottom: 10px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background-color: #1A1A1A;
+            border: 1px solid #3A3A3A;
+            color: #EDE6DC;
+            padding: 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #C2A46D;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* FOOTER */
+        #footer {
+            background-color: #0B0B0B;
+            padding: 60px 50px 40px;
+            text-align: center;
+            border-top: 1px solid #3A3A3A;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: #C2A46D;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            color: #EDE6DC;
+            opacity: 0.6;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #EDE6DC;
+            opacity: 0.5;
+            margin-top: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 25px;
+            }
+
+            nav ul {
+                gap: 25px;
+            }
+
+            section {
+                padding: 80px 25px;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            h2 {
+                font-size: 36px;
+            }
+
+            .hero-tagline {
+                font-size: 18px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .who-wrap {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .who-left {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .services-grid,
+            .process-grid,
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- INTRO OVERLAY -->
+    <div id="intro">
+        <svg class="key-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#C2A46D" stroke-width="1.5" fill="none">
+                <circle cx="30" cy="30" r="15"/>
+                <circle cx="30" cy="30" r="8"/>
+                <line x1="42" y1="30" x2="85" y2="30"/>
+                <line x1="70" y1="25" x2="70" y2="20"/>
+                <line x1="78" y1="25" x2="78" y2="20"/>
+            </g>
+        </svg>
+        <div class="intro-text">SSF STUDIO</div>
+        <div class="intro-location">LONDON</div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content">
+        <!-- NAVIGATION -->
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="dark-section">
+            <h1>SSF STUDIO</h1>
+            <p class="hero-tagline">Strategy. Structure. Influence.</p>
+            <p class="hero-description">London-based strategic consultancy for international market entry and premium positioning.</p>
+            <a href="#contact" class="btn">REQUEST A CONSULTATION</a>
+            <p class="hero-note">By appointment only.</p>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="light-section">
+            <div class="who-wrap">
+                <div class="who-left">
+                    <img src="tugce-gultekin-photo.jpg" alt="Tuğçe Gültekin" class="about-photo">
+                </div>
+                <div class="who-right">
+                    <h2>Who We Are</h2>
+                    <p>SSF Studio supports Turkish and international businesses expanding into the UK.</p>
+                    <p>We build the commercial structure, positioning, and operational roadmap required to operate inside the London market with credibility.</p>
+                    <p>Trusted by established brands relocating from Turkey into the UK ecosystem.</p>
+                    <p>In collaboration with Oezbal Digital Marketing since 2019. Trusted by established brands across Turkey.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CORE SERVICES -->
+        <section id="services" class="dark-section">
+            <h2>Core Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-number">01</div>
+                    <h3>UK Market Entry & Expansion</h3>
+                    <p>Strategic roadmaps for businesses entering the UK market, including market positioning, operational structure, and long-term integration.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">02</div>
+                    <h3>Business Consultancy & Growth Strategy</h3>
+                    <p>Executive-level advisory focused on scalable growth, revenue structure, and decision-making frameworks that hold under pressure.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">03</div>
+                    <h3>Brand Strategy & Market Positioning</h3>
+                    <p>Premium positioning and messaging architecture designed to compete in sophisticated markets without dilution.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">04</div>
+                    <h3>Brand Architecture & Creative Oversight</h3>
+                    <p>A refined visual and communication system that reflects authority, credibility, and premium value.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">05</div>
+                    <h3>Partnerships & Market Access</h3>
+                    <p>Strategic introductions, collaboration guidance, and network expansion aligned with UK business culture and standards.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section id="process">
+            <h2>How It Works</h2>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Initial Consultation</h3>
+                    <p>We define the objective, market readiness, and strategic direction.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Strategic Framework</h3>
+                    <p>You receive a clear roadmap, structure, and priority plan.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Implementation Support</h3>
+                    <p>Execution guidance, refinement, and high-level advisory as needed.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Market Integration</h3>
+                    <p>Long-term positioning and growth alignment inside the UK ecosystem.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHILOSOPHY -->
+        <section id="philosophy" class="dark-section">
+            <h2>Philosophy</h2>
+            <p class="philosophy-intro">SSF Studio operates at the intersection of strategic intelligence and aesthetic authority.</p>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <h3>Precision Over Volume</h3>
+                    <p>We prioritise strategic clarity and measurable outcomes over noise, trends, and surface-level visibility.</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3>Premium Standard</h3>
+                    <p>The goal is not to look premium. The goal is to operate premium. Every decision must match the market you want access to.</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3>Discretion & Integrity</h3>
+                    <p>Confidentiality is part of the work. Trust is built through consistency, not performance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="dark-section">
+            <h2>Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="info-item">
+                        <div class="info-label">Location</div>
+                        <div class="info-value">London, United Kingdom</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value"><a href="mailto:strategy@ssfstudio.co.uk">strategy@ssfstudio.co.uk</a></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Consultations</div>
+                        <div class="info-value">By appointment only</div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="fullname">FULL NAME</label>
+                        <input type="text" id="fullname" name="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">EMAIL ADDRESS</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">COMPANY NAME</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="details">PROJECT DETAILS</label>
+                        <textarea id="details" name="details" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">SUBMIT ENQUIRY</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer id="footer">
+            <div class="footer-logo">SSF STUDIO</div>
+            <p class="footer-copyright">© 2026 SSF Studio. All Rights Reserved.</p>
+            <p class="footer-note">London-based strategic consultancy.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Intro animation control with failsafe
+        document.addEventListener("DOMContentLoaded", () => {
+            const intro = document.getElementById("intro");
+            const main = document.getElementById("main-content");
+            
+            // Initially hide main content and prevent scrolling
+            if (main) {
+                main.style.opacity = "0";
+                main.style.visibility = "hidden";
+            }
+            document.body.style.overflow = "hidden";
+            
+            function showMain() {
+                if (intro) {
+                    intro.classList.add("fade-out");
+                    setTimeout(() => {
+                        intro.style.display = "none";
+                    }, 800);
+                }
+                if (main) {
+                    main.style.opacity = "1";
+                    main.style.visibility = "visible";
+                    main.style.display = "block";
+                }
+                document.body.style.overflow = "auto";
+            }
+            
+            // Normal timing
+            setTimeout(showMain, 1800);
+            
+            // Failsafe: never allow intro to trap the site
+            setTimeout(showMain, 2500);
+        });
+
+        // Form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.contact-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your enquiry. We will be in touch within 48 hours.');
+                    form.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
